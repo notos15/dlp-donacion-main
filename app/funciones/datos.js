@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import formulario from "@/app/formulario/donador.json";
-import Cuadro from "@/app/funciones/ctexto.js";
 import Libro from "@/app/formulario/libro.json";
 import Modal from "./modal.js";
+import Duda from "./duda.js";
+import { si_ISBN, no_ISBN } from "@/app/funciones/datos _libro.js";
 
 export function persona() {
     const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
@@ -33,6 +34,7 @@ export function persona() {
                                     type={pregunta.tipo}
                                     name={pregunta.id}
                                     value={opcion}
+                                    checked={opcion === opcionSeleccionada}
                                     onChange={handleOpcionChange}
                                 />
                                 {opcion}
@@ -42,7 +44,7 @@ export function persona() {
                 </div>
             ))}
             
-            {opcionSeleccionada !== 'Si' && (
+            {opcionSeleccionada !== 'Si' && opcionSeleccionada !== '' && (
                 <div >
                     <div className='rellenar'>
                             <div className='tex'>Correo</div>
@@ -51,7 +53,7 @@ export function persona() {
                     <div className='rellenar'>
                         <label >
                             <input type="checkbox" checked={isChecked} onChange={(e) => setChecked(e.target.checked)} disabled={!hasSeenTerms}  />
-                            <button className="texto-enlace"  onClick={toggleModal} >Terminos y condiciones</button>
+                            <button className="texto-enlace"  onClick={toggleModal} >Terminos y Condiciones</button>
                             <Modal isOpen={isModalOpen} onClose={handleModalClose} />
                         </label>
                     </div>
@@ -62,23 +64,47 @@ export function persona() {
     );
 }
 
-export function libro(){
-    const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
-    const handleOpcionChange = (e) => {
-        setOpcionSeleccionada(e.target.value);
+export function codigo(){
+    const [opcionSeleccionada1, setOpcionSeleccionada1] = useState('');
+    const [mostrarContenido, setMostrarContenido] = useState(false);
+    const [mostrarISBN, setMostrarISBN] = useState(false);
+    
+    const handleOpcionChange1 = (e) => {
+        const seleccion = e.target.value;
+        setOpcionSeleccionada1(seleccion);
+        setMostrarContenido(false); // Ocultar el contenido anterior
+        if (seleccion === 'Si') {
+            setMostrarISBN(true); // Muestra el campo ISBN
+        } else {
+            setMostrarISBN(false); // Oculta el campo ISBN
+            setMostrarContenido(true); // Muestra el contenido de no_ISBN
+            setOpcionSeleccionada1('');
+        }    
     };
+
+    const siguienteClick = () => {
+        setMostrarContenido(true); // Muestra el contenido al hacer clic
+        setMostrarISBN(false); // Oculta el campo ISBN y el botón
+    };
+
+
+    const [isDudaVisible, setDudaVisible] = useState(false);
+    const respuesClick = () => {
+        setDudaVisible(true);
+    };
+    const handleModalClose = () => {
+        setDudaVisible(false); // Cierra el modal
+    };
+  
+
     return(
         <div>
-            {Libro.cuadrotx.map((preg,j)=>(
-            <div className='rellenar'>
-                <div className='tex'>{preg.id}</div>
-                <Cuadro dato={preg.gris}></Cuadro>
-            </div>
-            ))}
-            
             {Libro.Codigo.map((pregunta, i) => (
                 <div className='precionar' key={i}>
-                    <div className="titulo1">{pregunta.pregunta}</div> {/* Mostrar la pregunta */}
+                    <div className="titulo1">
+                        <button className="btn_duda" onClick={respuesClick}>?</button>
+                        <div>{pregunta.pregunta}</div>
+                    </div>
                     <div className='rellenar'>
                         {pregunta.opciones.map((opcion, j) => (
                             <label key={j}>
@@ -86,7 +112,8 @@ export function libro(){
                                     type={pregunta.tipo}
                                     name={pregunta.id}
                                     value={opcion}
-                                    onChange={handleOpcionChange}
+                                    checked={opcion === opcionSeleccionada1}
+                                    onChange={handleOpcionChange1}
                                 />
                                 {opcion}
                             </label>
@@ -94,31 +121,26 @@ export function libro(){
                     </div>
                 </div>
             ))}
-             {opcionSeleccionada !== 'No' && (
+            {opcionSeleccionada1 === 'Si' && mostrarISBN && (
                 <div>
                     <div className='rellenar'>
-                            <div className='tex'>ISBN</div>
-                            <input type="email" name="codigo" />
+                        <div className='tex'>ISBN</div>
+                        <input type="text" name="codigo" />
+                        <button className="btn" onClick={siguienteClick}>Siguiente</button>
                     </div>
+                </div>  
+            )}
+            {mostrarContenido && (
+               <div>
+                   {opcionSeleccionada1 === 'Si' ? si_ISBN() :  no_ISBN()}
+                </div>
+            )}
+            {isDudaVisible && (
+                <div className="rellenar">
+                    <Duda isOpen={isDudaVisible} onClose={handleModalClose}/>
                     
                 </div>
-                
             )}
-            {Libro.tes.map((pregunta, i) => (
-                <div className='precionar' key={i}>
-                    <div className="titulo1">{pregunta.pregunta}</div> {/* Mostrar la pregunta */}
-                    <div className='rellenar'>
-                        <div className='opciones'>
-                        {pregunta.opciones.map((opcion, j) => (
-                            <label key={j}>
-                                <input type={pregunta.tipo} name={pregunta.id} value={opcion} />
-                                {opcion}
-                            </label>
-                        ))}
-                        </div>
-                    </div>
-                </div>
-            ))}
         </div>
-    )
+    );
 }

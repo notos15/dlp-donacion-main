@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { persona, libro } from "./funciones/datos.js";
+import { persona, codigo } from "./funciones/datos.js";
 // Donar Libros
 export default function Home() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export default function Home() {
 return (
   <div >
     <h1 className="titulo">Donar Libros</h1>
-
+    
     <div className="cuestionario">
       <h1 className="titulo1">Informacion del Usuario</h1>
       <div>{persona()}</div>
@@ -19,7 +19,7 @@ return (
 
     <div className="cuestionario">
       <h1 className="titulo1">Informacion del Libro</h1>
-      <div>{libro()}</div>
+      <div>{codigo()}</div>
     </div>
 
     <div className="footer">

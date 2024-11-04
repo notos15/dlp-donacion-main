@@ -24,7 +24,7 @@ html {
   font-family:'Times New Roman', Times, serif;
   display: flex;
   justify-content: center;
-  font-size: 1;
+  flex: 1;
   font-weight:bold;
   
 }
@@ -37,19 +37,21 @@ html {
 }
 
 .cuestionario{
+  width: 600px;
   border: 5px solid #000000;
   display: flex;
   padding: 2rem 1rem;
   justify-content: space-between;
   flex-direction: column;
-  min-height: 70px;
-  background-color:rgb(255, 254, 254);
+  min-height: 70px;  
+  background-color:rgb(255, 255, 255);
   margin:10px;
+ 
 }
 .rellenar{
   justify-content: center;
   align-items: center;
-  border: 1px solid #999999;
+  border: 1px solid #040404;
   margin:10px;
   padding: 10px;
   border-radius: 5px;
@@ -124,8 +126,28 @@ html {
 
 .modal-content {
   background: white;
-  padding: 100px;
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(200, 26, 26, 0.2);
-  z-index: 1001; /* Asegúrate de que el contenido del modal esté delante de la superposición */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  max-width: 500px; /* Ancho máximo del modal */
+  width: 90%; /* Ancho del modal en relación al viewport */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+  overflow-y: auto; /* Permitir scroll si el contenido es muy largo */
+  max-height: 80vh; /* Altura máxima del modal */
+}
+.btn_duda {
+  display: inline-block;
+  color: black;
+  margin: 0 1rem;
+  border-radius: 50%;
+  border: none;
+  background-color:rgb(98, 179, 223);
+  font-size: 1rem;
+  font-weight: bold;
+  
+}
+.btn_duda:hover {
+  cursor: pointer;
+  background-color: #0508ca;
+  color: #0508ca;
+  
 }

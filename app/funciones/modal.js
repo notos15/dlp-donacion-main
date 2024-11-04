@@ -13,7 +13,9 @@ const Modal = ({ isOpen, onClose }) => {
           return response.text(); // Devuelve el texto de la respuesta
         })
         .then((text) => {
-          setTermsText(text); // Almacena el texto en el estado
+          // Reemplaza saltos de línea por <br/>
+          const formattedText = text.replace(/\n/g, '<br/>');
+          setTermsText(formattedText); // Almacena el texto en el estado
         })
         .catch((error) => {
           console.error('Error fetching terms:', error); // Maneja cualquier error
@@ -32,7 +34,8 @@ const Modal = ({ isOpen, onClose }) => {
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal-content">
         <h2>Términos y Condiciones</h2>
-        <p>{termsText}</p>  
+        <div dangerouslySetInnerHTML={{ __html: termsText }} /> 
+      
       </div>
     </div>
   );

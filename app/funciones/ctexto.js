@@ -6,7 +6,7 @@ const Cuadro=({dato})=>{
         <input
             type="text"
             value={nombre}
-            placeholder={dato}
+            placeholder={""}
             onChange={(e) => setNombre(e.target.value)}
         />
     );

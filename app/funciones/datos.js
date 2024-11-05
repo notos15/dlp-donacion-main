@@ -7,10 +7,10 @@ import Duda from "./duda.js";
 import { si_ISBN, no_ISBN } from "@/app/funciones/datos _libro.js";
 
 export function persona() {
-    const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
-    const handleOpcionChange = (e) => {
-        setOpcionSeleccionada(e.target.value);
-    };  
+    const [opcionSeleccionadaPersona, setOpcionSeleccionadaPersona] = useState('');
+    const handleOpcionPersonaChange = (e) => {
+        setOpcionSeleccionadaPersona(e.target.value);
+    }; 
     const [isModalOpen, setModalOpen] = useState(false); 
     const [hasSeenTerms, setHasSeenTerms] = useState(false); 
     const [isChecked, setChecked] = useState(false); 
@@ -34,8 +34,8 @@ export function persona() {
                                     type={pregunta.tipo}
                                     name={pregunta.id}
                                     value={opcion}
-                                    checked={opcion === opcionSeleccionada}
-                                    onChange={handleOpcionChange}
+                                    
+                                    onChange={handleOpcionPersonaChange}
                                 />
                                 {opcion}
                             </label>
@@ -44,7 +44,7 @@ export function persona() {
                 </div>
             ))}
             
-            {opcionSeleccionada !== 'Si' && opcionSeleccionada !== '' && (
+            {opcionSeleccionadaPersona !== 'Si' && opcionSeleccionadaPersona !== '' && (
                 <div >
                     <div className='rellenar'>
                             <div className='tex'>Correo</div>
@@ -65,20 +65,20 @@ export function persona() {
 }
 
 export function codigo(){
-    const [opcionSeleccionada1, setOpcionSeleccionada1] = useState('');
+    const [opcionSeleccionadaCodigo, setOpcionSeleccionadaCodigo] = useState('');
     const [mostrarContenido, setMostrarContenido] = useState(false);
     const [mostrarISBN, setMostrarISBN] = useState(false);
     
-    const handleOpcionChange1 = (e) => {
+    const handleOpcionCodigoChange = (e) => {
         const seleccion = e.target.value;
-        setOpcionSeleccionada1(seleccion);
+        setOpcionSeleccionadaCodigo(seleccion);
         setMostrarContenido(false); // Ocultar el contenido anterior
         if (seleccion === 'Si') {
             setMostrarISBN(true); // Muestra el campo ISBN
         } else {
             setMostrarISBN(false); // Oculta el campo ISBN
             setMostrarContenido(true); // Muestra el contenido de no_ISBN
-            setOpcionSeleccionada1('');
+            setOpcionSeleccionadaCodigo('');
         }    
     };
 
@@ -112,8 +112,8 @@ export function codigo(){
                                     type={pregunta.tipo}
                                     name={pregunta.id}
                                     value={opcion}
-                                    checked={opcion === opcionSeleccionada1}
-                                    onChange={handleOpcionChange1}
+                                    
+                                    onChange={handleOpcionCodigoChange}
                                 />
                                 {opcion}
                             </label>
@@ -121,7 +121,7 @@ export function codigo(){
                     </div>
                 </div>
             ))}
-            {opcionSeleccionada1 === 'Si' && mostrarISBN && (
+            {opcionSeleccionadaCodigo === 'Si' && mostrarISBN && (
                 <div>
                     <div className='rellenar'>
                         <div className='tex'>ISBN</div>
@@ -132,13 +132,12 @@ export function codigo(){
             )}
             {mostrarContenido && (
                <div>
-                   {opcionSeleccionada1 === 'Si' ? si_ISBN() :  no_ISBN()}
+                   {opcionSeleccionadaCodigo === 'Si' ? si_ISBN() :  no_ISBN()}
                 </div>
             )}
             {isDudaVisible && (
                 <div className="rellenar">
                     <Duda isOpen={isDudaVisible} onClose={handleModalClose}/>
-                    
                 </div>
             )}
         </div>
